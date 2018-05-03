@@ -1,0 +1,42 @@
+1.int age 라는 private 변수와 show 라는 public 함수를 가진
+  Dog 클래스를 완성하여라
+
+
+#include <iostream>
+
+using namespace std;
+
+class Dog{
+	
+};
+
+int main(void)
+{
+	Dog a(10);
+	Dog b;
+	Dog c(a);
+
+	a.show();
+	b.show();
+	c.show();
+}
+
+2.주소값을 입력받아 출력하도록 Class를 만들어라.
+  private int *p  public Test함수
+
+#include <iostream>
+
+using namespace std;
+
+class Point{
+	
+};
+
+int main(void){
+
+	Point a(100);
+	Point b(200);
+
+	a.Test();
+	b.Test();
+}

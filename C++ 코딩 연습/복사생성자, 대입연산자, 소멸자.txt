@@ -1,0 +1,62 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Test{
+	int age=0;
+	char *name;
+public:
+	Test(){}
+
+	Test(const char *n, int a){
+
+		name = new char[strlen(n) + 1];
+		strcpy(name, n);
+		age = a;
+
+	}
+
+	Test(const Test &t){
+
+		this->name = new char[strlen(t.name) + 1];
+		strcpy(this->name, t.name);
+		this->age = t.age;
+
+	}
+
+	Test& operator=(const Test & t){
+
+		this->name = new char[strlen(t.name) + 1];
+		strcpy(this->name, t.name);
+		this->age = t.age;
+
+		return *this;
+	}
+
+	~Test(){
+		delete[] name;
+	}
+
+	void show(){
+		cout << "이름이" << name << "이고 " << age << "살인 개가 짖는다." << endl;
+	}
+
+};
+
+int main(void)
+{
+	char name[40];
+
+	cin >> name;
+	Test a(name, 10);
+
+	Test b;
+	b = a;
+
+	Test c(a);
+
+	a.show();
+	b.show();
+	c.show();
+}

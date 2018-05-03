@@ -1,0 +1,98 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+// struct Point가 다음과 같다. 
+// 이를 이용하여 main()이 실행되도록 
+// class Circle 을 프로그램하고 결과를 확인하라.
+struct Point {
+	double x, y;
+	Point() : x(0.), y(0.) { }
+	Point(double x, double y) : x(x), y(y) { }
+};
+
+ostream& operator<<(ostream& os, const Point& p)
+{
+	os << p.x << "\t" << p.y;
+	return os;
+}
+
+istream& operator>>(istream& is, Point& p)
+{
+	is >> p.x >> p.y;
+	return is;
+}
+
+class Circle {
+	Point center;
+	double r;
+public:
+	void setCenter(Point p) { center = p; }
+	void setR(double d) { r = d; }
+
+	void show() {
+		cout << "중심점(" << center.x << ", "
+			<< center.y << "), 반지름 " << r;
+	}
+
+	friend ostream& operator<<(ostream& os, const Circle& c);
+	friend istream& operator>>(istream& is, Circle& c);
+};
+
+ostream& operator<<(ostream& os, const Circle& c)
+{
+	os << c.center << "\t" << c.r;
+	return os;
+}
+
+istream& operator>>(istream& is, Circle& c)
+{
+	is >> c.center >> c.r;
+	return is;
+}
+
+
+
+int main()
+{
+	Circle* p;
+
+	// 원을 필요한 만큼 외부메모리를 이용하여 할당한다
+	// 예를 들어 100개의 원이 필요하다면
+	p = new Circle[100];
+
+	// [1] 100개원의 중심점의 좌표와 반지름을 임의의 값으로 설정한다.
+	for (int i = 0; i < 100; ++i) {
+		p[i].setCenter( Point( rand(), rand() ) );
+		p[i].setR( rand() );
+	}
+	// [2] 원의 출력연산자를 오버로딩하여 화면에 출력한다.
+	for (int i = 0; i < 100; ++i)
+		cout << p[i] << endl;
+
+	// [3] 출력연산자를 이용하여 파일에 저장한다.
+	ofstream out("20141024원100개.txt");
+	for (int i = 0; i < 100; ++i)
+		out << p[i];
+	out.close();
+
+	// [4] 입력연산자를 오버로딩하여 파일에서 원을 읽어온다.
+	ifstream in("20141024원100개.txt");
+	for (int i = 0; i < 100; ++i)
+		in >> p[i];
+	in.close();
+
+	// [5] 원의 멤버함수 show()를 작성하여 화면에 다음과 같은 형식으로
+	//		100개원의 좌표와 반지름을 출력한다.
+	//		[i 원] - 중심점( 123, 22 ), 반지름 20
+	for (int i = 0; i < 100; ++i) {
+		cout << "[" << i + 1 << " 원] - ";
+		p[i].show();
+		cout << endl;
+	}
+
+	// 메모리는 new와 delete가 짝이 맞아야 한다.
+	// 원을 더이상 사용하지 않는다면 OS(운영체제)해제해달라고 요청한다.
+	delete[] p;
+}
+

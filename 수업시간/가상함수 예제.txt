@@ -1,0 +1,72 @@
+#include <iostream>
+
+using namespace std;
+
+class GameObject{
+public:
+	virtual void render() =0;
+};
+
+class Wizard : public GameObject{
+public:
+	void render(){ cout << "마법사를 그린다" << endl; }
+};
+
+class Monster : public GameObject{
+public:
+	void render(){ cout << "몬스터를 그린다" << endl; }
+};
+// 나는 게임오브젝트 관리자이다.
+// 사용자가 원하는 오브젝트를 만들면 내가 그것들을 다 관리한다.
+// 나는 다음과 같은 메뉴를 제공한다.
+//		1. 마법사를 추가한다.
+//		2. 몬스터를 추가한다.
+//		3. 마지막으로 추가한 게임오브젝트를 삭제한다.
+//		4. 현재까지 존재하는 오브젝트를 그린다.
+int menu();
+int main()
+{
+	cout << "게임 오브젝트 관리 프로그램입니다." << endl;
+	GameObject* objs[10];
+	int num=0;
+	bool  flag = true;
+	while(flag){
+		switch(menu()){
+		case 1:
+			objs[num++] = new Wizard;
+			break;
+		case 2:
+			objs[num++] = new Monster;
+			break;
+		case 3:
+			delete objs[num-1];
+			num--;
+			break;
+		case 4:
+			cout << "현재 " << num << "개의 게임 오브젝트가 존재한다. " << endl;
+			for(int i=0 ; i< num; ++i)
+				objs[i]->render();
+			break;
+		case 5:
+			for(int i=0 ; i< num; ++i)
+				delete objs[i];
+		flag = false;
+		break;
+		default:
+			break;
+		}
+	}
+}
+
+int menu()
+{
+	int op;
+	cout << "1. 마법사를 추가한다." << endl;
+	cout << "2. 몬스터를 추가한다." << endl;
+	cout << "3. 마지막으로 오브젝트 삭제." << endl;
+	cout << "4. 모든 오브젝트를 그린다." << endl;
+	cout << "5. 프로그램 종료." << endl;
+	cout << "번호를 선택하세요. ";
+	cin >> op;
+	return op;
+}

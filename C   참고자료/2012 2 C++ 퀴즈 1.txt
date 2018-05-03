@@ -1,0 +1,43 @@
+수시 1차
+
+1.함수가 오버로딩이 되어있는데 메인함수가 어떤함수를 사용해야될지 몰라서 
+
+2.
+#include <iostream>
+
+using namespace std;
+
+void c_swap(char &, char &);            <-c_swap의 선언부분
+
+int main(void)
+{
+	char a='A', b='B';
+	c_swap(a, b);
+	cout << a << ", " << b << endl;
+}
+
+void c_swap(char &a, char &b)           <-c_swap의 정의부분
+{
+	char temp=a;
+	a=b;
+	b=temp;
+}
+
+3.
+#include <iostream>
+
+using namespace std;
+
+int n;
+
+int main(void)
+{
+	int n=10;
+	// b의 값을 전역변수 n과 지역변수 n의 합이
+	// 되도록 초기화하라;
+	int b = ::n+n;                   <- b의 값을 지역변수 n과 전역변수 n의 합이 되도록 초기화
+
+	cout << b << endl;
+}
+
+값이 10이 나오는 이유: 전역변수 n의 값을 초기화 시키지 않아서 값이 0으로 되어있다.

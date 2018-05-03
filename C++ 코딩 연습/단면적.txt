@@ -1,0 +1,43 @@
+#define _CRT_SECURE_NO_WARNINGS
+#define pi 3.14
+#include <iostream>
+
+using namespace std;
+
+struct Point
+{
+	int x, y;
+
+	Point(){}
+	Point(int a, int b) : x(a), y(b){}
+	Point& operator+(const Point & p){
+		Point c;
+		c.x = x + p.x;
+		c.y = y + p.y;
+		return c;
+	}
+};
+
+class Circle{
+	Point center;
+	int rad;
+public:
+	Circle(const Point p, int r){
+		center.x = p.x;
+		center.y = p.y;
+		rad = r;
+	}
+};
+
+double calcarea(const Circle &){};
+
+int main(void)
+{
+	Circle a(Point(10, 10), 5);
+	double area = calcarea(a);
+
+	cout << "원의 면적은 " << area << "입니다." << endl;
+}
+double calcarea(const Circle & c){
+	return c.rad*c.rad*pi;
+}

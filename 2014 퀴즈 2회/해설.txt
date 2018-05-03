@@ -1,0 +1,60 @@
+1.
+#include <iostream>
+
+using namespace std;
+
+class Dog{
+	int age=0;
+public:
+	
+	Dog(){}
+
+	Dog(int a){
+		age = a;
+	}
+
+	void show(){
+		cout << age << "살인 개가 짖는다." << endl;
+	};
+
+};
+
+int main(void)
+{
+	Dog a(10);
+	Dog b;
+	Dog c(a);
+
+	a.show();
+	b.show();
+	c.show();
+}
+
+2.
+#include <iostream>
+
+using namespace std;
+
+class Point{
+	int *p;
+public:
+	Point(){};
+	Point(int l){
+		p = new int[l];
+	};
+	void Test(){
+		  cout << p << endl;
+	}
+	~Point(){
+		delete p;
+	}
+};
+
+int main(void){
+
+	Point a(100);
+	Point b(200);
+
+	a.Test();
+	b.Test();
+}

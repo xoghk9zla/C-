@@ -1,0 +1,29 @@
+#include <iostream>
+
+using namespace std;
+
+class Point{
+	int x, y;
+public:
+	Point(int x, int y) : x(x), y(y){};
+
+	void show(){
+		cout << "(" << x << ", " << y << ")" << endl;
+	}
+	friend Point& operator+(const int& a, Point& p);
+};
+Point& operator+(const int& a,Point& p ){
+	p.x = a + p.x;
+	p.y = a + p.y;
+
+	return p;
+};
+
+int main(void)
+{
+	Point a(1, 2);
+
+	Point c = 10 + a;
+
+	c.show();
+}

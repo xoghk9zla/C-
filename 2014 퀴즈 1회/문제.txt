@@ -1,0 +1,53 @@
+1. main 함수의 수정없이 인자 두개를 입력받아 둘의 합을 반환 해주는 함수 f를 선언하고 정의 하시오.
+
+#include <iostream>
+
+using namespace std;
+
+							// <-함수의 선언부분
+			
+int main()		
+{		
+	cout << f() << endl;
+	cout << f(10) << endl;
+	cout << f(10,1) << endl;
+}
+
+							// <-함수의 정의부분
+
+2.main 함수의 수정없이 인자를 한개 받아 값을 두배로 만들어 주는 함수 f를 선언하고 정의 하시오.
+
+
+#include <iostream>
+
+using namespace std;
+
+							// <-함수의 선언부분
+int main()
+{
+	int a(1),b(2),c(3);
+
+	f(a),f(b),f(c);
+	//1,2,3을 받았으니 2,4,6이 출력이 되어야 한다.
+
+	cout << a << ", " << b << ", " << c << endl;
+}
+
+							// <-함수의 정의부분
+
+3.#include <iostream>
+
+using namespace std;
+
+int data;
+
+int main()
+{
+	int data = 101;
+	int sum = ;  					// sum이 전역변수와 지역변수 data의
+							   합이 되도록 초기화 하여라.
+
+	cout << sum << endl;
+}
+
+							//sum이 101이 출력되는이유를 설명 하시오.

@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+class Point {
+	int x;
+	int y;
+public:
+	Point( int a, int b ) : x( a ), y( b ) { }
+	friend ostream& operator<<( ostream&, const Point& );
+	friend Point& operator+(const int& a, Point& p);
+};
+ostream& operator<<( ostream& os, const Point& p ) {
+	os << '(' << p.x << ", " << p.y << ')';
+	return os;
+}
+Point& operator+(const int& a, Point& p) {
+	p.x=a+p.x;
+	p.y=a+p.y;
+	return p;
+}
+int main()
+{
+	Point X[3] = {
+	Point( 1, 1 ),
+	Point( 2, 2 ),
+	Point( 3, 3 )
+};
+	for ( int i = 0; i < 3; ++i )
+		X[i] = 7 + X[i];
+	for ( int i = 0; i < 3; ++i )
+		cout << X[i] << endl;
+}

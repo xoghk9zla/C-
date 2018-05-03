@@ -1,0 +1,205 @@
+1.swap함수 만들기
+
+#include <iostream>
+
+using namespace std;
+
+void f(int&, int&);
+
+int main(void)
+{
+	int a=1,b=2;
+
+	f(a, b);
+
+	cout << a << ", " << b << endl;
+}
+
+void f(int&a,int&b){
+	int temp=a;
+	a=b;
+	b=temp;
+}
+
+
+2.메모리 동적할당
+
+#include <iostream>
+
+using namespace std;
+
+void f(int*&, int, int);
+
+int main(void)
+{
+	int *p=0;
+
+	f(p, 10, 23);
+
+	for (int i = 0; i < 10; ++i)
+		cout << p[i] << " ";
+	cout << endl;
+	
+	delete[] p;
+}
+
+void f(int*& p, int n, int d){			<-함수f정의
+	p = new int[n];	
+	
+	for (int i = 0; i < 10; ++i){
+		p[i] = d;
+	}
+}
+
+3.복사생성자의 호출 위치와 이유
+
+#include <iostream>
+
+using namespace std;
+
+class A{
+public:
+	void f(A&){};
+	A(){};
+	A(A& a){
+		cout << "복사생성자" << endl;
+	}
+};
+A f(A& a){ return a; }
+int main(void)
+{
+	A a;
+	cout << 1 << endl;
+	A b = a; //복사생성자 -> A b(a);
+	cout << 2 << endl;
+	b.f(a);
+	cout << 3 << endl;
+	f(a);	 //복사생성자 ->객체를 새로 생성해야 한다. 
+		 //		단, 생성과 동시에 동일한 자료형의 객체로 초기화해야 한다.
+
+	cout << 4 << endl;
+}
+
+4.오류가 발생하는 시점과 이유
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+class A {
+	char *p;
+public:
+
+	A(char *ptr){
+		p = new char[strlen(ptr)+ 1];
+			strcpy( p, ptr );
+	};
+	/*A(const A& a){
+		this->p = new char[strlen(a.p) + 1];
+		strcpy(this->p, a.p);
+	}*/
+	~A(){delete[] p;};  //깊은 복사를 하지않아서 댕글링포인터가 발생하게 된다.
+
+	void show(){};
+	
+};
+
+int main(){
+	A a(  "2012 2학2학기 학기  C++" ), b( "중간시험");
+	a.show();
+	b.show();
+	A c = a; 
+	cout << "게임은 즐거워!!" << endl;
+		c.show();
+}
+
+5.cout객체에서 << 연속 사용가능 이유
+
+cout << "C++" << "is better than" << "C programming language!";
+
+//cout.operator<<(char *str || int i || double d)가 호출이 되고 객체를 생성할
+//때 반환값으로 *this(자기자신)을 참조로 반환한다. 그래서 cout을 리턴하게됨.
+//cout << "C++" << "is better than" << "C programming language!";
+//printf("C++"); cout << "is better than" << "C programming language!";
+//	       printf("is better than"); cout << "C programming language!";
+//					printf("C programming language!");
+//http://cafe.naver.com/noodles/472739 네이버에 cout오버로딩 검색 카페[C++인강]6번영상참고
+
+6.클래스의 정의에 오류가 있다. 그 부분과 이유
+
+class A{
+	int n;
+public:
+	void inti(int a){ n = a; }
+	int get(){ return ++n; }
+	void show() const{            <- const를 넣게되면 읽기전용이 되어서 get함수에서 값변경을 하지못하게 한다.
+		cout << get() << endl;
+	}
+};
+
+7.실행가능하게 수정
+
+#include <iostream>
+
+using namespace std;
+
+class A{
+	int x,y;
+public:
+	A(){ x=0,y=0;}  //기본생성자
+	A(int a, int b) : x(a), y(b){}
+	void show(){}
+};
+int main(){
+	A a(1, 2);
+	A arr[10];	//이부분에 필요한 기본생성자가 없다.
+
+	a.show();
+
+	for (int i = 0; i < 10; ++i)
+		arr[i].show();
+}
+
+8.Point구조체와 Circle클래스가있고, 두원이 겹치는지 확인해주는 함수
+
+#include <iostream>
+
+using namespace std;
+
+struct Point
+{
+	double x, y;
+	Point(double a, double b) : x(a), y(b){};
+};
+
+class Circle{
+	Point center;
+	double r;
+public:
+	Circle(Point p, double rad) : center(p), r(rad){}
+	double area(){
+		return 3.14*r*r;
+	}
+	double getR(){ return r; }
+	double getCx(){ return center.x; }
+	double getCy(){ return center.y; }
+};
+int collide(Circle, Circle);
+int main(void)
+{
+	Circle a(Point(10, 10), 5);
+	Circle b(Point(20, 20), 5);
+
+	if (collide(a, b))
+		cout << "두 원이 겹칩니다." << endl;
+	else
+		cout << "두 원은 서로 떨어져 있습니다." << endl;
+}
+int collide(Circle a, Circle b){
+	if (sqrt((a.getCx() - b.getCx()) * (a.getCx() - b.getCx()) + (a.getCy() - b.getCy()) * (a.getCy() - b.getCy())) <= a.getR() + b.getR())
+		return 1;
+	else
+		return 0;
+};

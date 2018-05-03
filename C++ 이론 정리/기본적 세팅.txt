@@ -1,0 +1,36 @@
+우선 파일은 3개로 나눈다
+
+클래스를 선언할 헤더파일.h
+클래스를 정의할 파일.cpp
+main함수가 있는 파일.cpp
+
+헤더 파일은 중복 정의가 안되도록
+#ifndef _DDD_
+#define _DDD_
+{...}
+#endif
+
+를 써준다
+
+헤더 파일은 오직 선언만 하고 정의는 정의파일에서 void Class::F() {...}; 이런식으로 불러서 해준다.
+
+
+그리고 cpp파일들에게는 헤더를 사용한다는 의미로
+#include "헤더파일.h" 를 적어준다
+
+정의할파일.cpp 에서는
+c에서 사용되던 라이브러리는 usingnamespace std를 한 후 #include <cstdio><cmath>와 같이 C언어에서 사용되던 라이브러리 이름의 .h를 없애고 앞에 c를 더해줌으로써 사용한다. (c기본 라이브러리들은 std 이름공간에 있다.)
+
+cpp에서 출력이나 입력에 사용하는 라이브러리는 iostream
+#include <iostream> 으로 선언해준다.
+
+-주요 함수들
+cin>>val1>>val2;	//값을 입력 받는다. 
+cout>>"너와">>"나의">>"연결">>"고리";		//출력
+cout>>endl;	//개행
+
+
+usingnamespace std;	//이름공간 std를 파일에서 사용한다는 것
+
+usingnamespace가 없으면
+std::cout 이런식으로 std공간에 있는 cout이란 함수를 가져와라고 할 수 있다.

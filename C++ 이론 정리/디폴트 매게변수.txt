@@ -1,0 +1,76 @@
+int f(int =3);
+혹은
+int f(int n=3);
+으로 선언
+
+
+int f(int n)
+{
+...
+}
+으로 사용한다.
+
+
+※주의 - 선언서만 디폴트값을 정해준다. 정의에는 자료형만 써준다.
+
+
+만약 f(int =3);을 호출하면서
+f();를 한다면 n은 자동으로 3이 넣어진다.
+
+f(6); 을 넣는다면 n에는 6이 들어간다.
+
+
+
+#include <iostream>
+using namespace std;
+
+void F(int n1= 3, int n2=4, int n3=5);
+
+int main()
+{
+	F(0,0,0);
+	F(0,0);
+	F(0);
+
+}
+void F(int n1, int n2, int n3)
+{
+	cout<<n1<<","<<n2<<","<<n3<<endl;
+}
+
+
+
+결과창 
+0,0,0
+0,0,5
+0,4,5
+3,4,5
+
+
+
+#include <iostream>
+using namespace std;
+
+void F(int n1, int n2=4, int n3=5);	//n1의 디폴트값을 없앴다
+
+int main()
+{
+	F(0,0,0);
+	F(0,0);
+	F(0);
+
+}
+void F(int n1, int n2, int n3)
+{
+	cout<<n1<<","<<n2<<","<<n3<<endl;
+}
+
+
+앞에서 부터 변수값이 찬다. n3에 디폴트값을 주지 않으면 3개 전부 값을 줘야한다. n2에 디폴트값을 주지 않으면 2개 값을 줘야 하고, n1에 디폴트값을 주지 않으면 한개의 값만 있으면 된다.
+
+int F(int n1=3, int n2=4, int 3);
+(0,0,0) O
+(0,0) X
+(0) X
+
+

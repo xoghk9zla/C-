@@ -1,0 +1,48 @@
+//2014.12.5(금)
+#include <iostream>
+
+using namespace std;
+// 하는 일은 같은데 단지 자료형이 달라 매번 같은 일을 반복하는 것에 지쳤다.
+// 반복은 컴퓨터가 잘하는 일이니 컴퓨터가 자동으로
+// 함수와 클래스를 만들어 주면 안될까---> 하는생각에서 Template을 만들어 내게 되었다.
+// 지난시간 add()함수를 예로 들어 보았다.
+// template <typename T>
+// T add(const T& a,const T& b){
+//		return a+b;
+//	}
+// add함수는 함수의 몸체가 자료형이 다르더라도 변경이 되지는 않았다.
+
+// 이와 같이 기능은 같은데 자료형이 다른 경우 자료형을 명시하지 않고
+// 프로그램을 작성할 수 있도록 template을 이용할수 있다.
+// 그런데 문자열이 전달되는 경우
+// return a+b; 는 포인터값을 그냥 더하게 되므로 합친 문자열을 만들어 낼 수 없다.
+// 이와 같은 상황에 대처하기 위하여 template specialization을 할 수 있다.
+
+// 용어
+// function template - 함수를 생성할 수 있는 틀
+// template function - 함수 템플릿이 생성한 함수
+// class template - 클래스를 생성할 수 있는 틀
+// template class - 큼래스 템플릿이 생성한 클래스
+// template specialization - 템플릿이 만들어 낸 코드를 사용하지 않고, 사용자가 만든 코드를 사용하게 하는 기법
+template <typename T>
+T add(const T& a,const T& b){
+	return a+b;
+}
+template <>
+char* add<char*>(char* const & a,char* const & b){
+	
+}
+int main()
+{
+	
+	cout << add<int>(2, 3) << endl;
+	cout << add<double>(2, 3.14) << endl;
+	cout << add<char*>("abc", "def") << endl;	// 예상 abcdef
+}
+/*
+	int* p;
+	int const* p;	// p가 가리키는 정수 값이 const
+	const int* p;	// p가 가리키는 정수 값이 const
+	int* const p;	// p 자체가 const
+	const int* const p; // 주소와 값 모두 const
+*/

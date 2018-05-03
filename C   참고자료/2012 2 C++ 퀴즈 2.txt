@@ -1,0 +1,69 @@
+수시 2차
+
+1.다음은 reference를 사용하여 두 변수의 값을
+바꾸는 프로그램이다. 어느 부분에서 잘못이 있는
+가를 찾고 그 이유를 설명하라. (10)
+
+#include <iostream>
+
+using namespace std;
+
+void change(int& , int& );
+
+int main()
+{
+	int a = 1, b = 2;
+	change( a, b );
+	cout << a << " --- " << b << endl;
+	change( 10, 20 );                   <-비const 참조값은 ivalue여야한다
+}
+void change(int& a, int& b)
+{
+	int t = a;
+	a = b;
+	b = t;
+}
+
+2.다음의 함수 f는 주소와 갯수를 받아 메모리를           *****************************************
+할당하고 초기화한다. f( )의 몸체를 작성하라. (20)
+
+#include <iostream>
+using namespace std;
+void f( int*&, int );
+int main()
+{
+int* p = 0; // 주소의 초기화
+f( p, 100 );
+for ( int i = 0; i < 100; ++i )
+cout << p[i] << endl;
+// 모든 100개의 값은 0으로 출력
+delete []p;
+}
+void f( int*& p, int n )
+{
+ p= new int[n];
+}                                                       *****************************************
+
+3.다음 프로그램의 구조체를 class로 바꾸어라.
+main() 부분은 변경되지 않는다. 프로그램의 결과
+는 구조체일때와 같다. (20)
+
+#include <iostream>
+
+using namespace std;
+
+class Point {
+public:
+	int x, y;
+
+	Point() {
+		x = 0;
+		y = 0;
+	}
+
+};
+int main()
+{
+	Point A;
+	cout << A.x << ", " << A.y << endl;
+}

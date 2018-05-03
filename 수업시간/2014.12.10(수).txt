@@ -1,0 +1,74 @@
+//2014.12.5(금)
+#include <iostream>
+#include <string>
+
+using namespace std;
+// r-value reference	-오른쪽값 참조
+// 1. 이동을 구현하려고
+// 2. factory patteren에서 perfect forwarding을 하려고
+
+// move semantic		-이동 의미론
+class Test{
+	int num;
+	int * p;
+public:
+	Test(){cout << "기본생성자" << endl;}
+	Test(int s): num(s), p( new int[s]){cout<<"생성자" << endl;}
+	Test(const Test& a): num(a.num), p( new int[a.num]){ cout << "복사생성자" << endl; }						// 복사생성자
+	Test& operator=(const Test& a){
+		// 대입은 존재하는 객체의 내용을 바꾸는 동작이다.
+		// 1. 내가 가진 메모리를 해제한다.
+		// 2. 상대방의 크기만큼 메모리를 할당한다.
+		// 3. 상대방의 메모리 내용을 복사한다.
+		if(this != &a){
+			delete[] p;
+			p = new int[a.num];
+			num = a.num;
+		}
+		cout << "복사대입연산자" << endl;
+	return* this;
+	}				// 복사 대입 연산자
+	~Test(){	delete[] p;	cout << "소멸자" <<endl;}
+	// C++11 의 이동의미론까지 구현하고 싶으면
+	// class Test의 프로그래머는
+	// 다음 2개의 함수를 제공해야 한다.
+	//		1. 이동생성자(move constructor)
+	//		2. 이동대입연산자(move assignment operator)
+	Test( Test&& other ): num(other.num), p( new int[other.num]){
+		cout << "이동생성자" << endl;
+		// other의 메모리를 비운다.
+		other.p = nullptr;
+		other.num=0;
+	}
+	Test& operator=(Test&& other){
+		if( this != &other){
+			cout << "이동대입연산자" << endl;
+			delete[] p;
+			num = other.num;
+			p = new int[other.num];
+			other.p=nullptr;
+			other.num=0;
+		}
+		return* this;
+	}
+	int GetN()const{ return num; }
+};
+void change(Test&, Test&);
+int main()
+{
+	Test a(10), b(20);	// Test는 인자의 수만큼 메모리를 동적으로 할당.
+
+	change(a, b);
+
+	cout << a.GetN() << b.GetN() << endl;
+	// a와 b의 값이 서로 바뀌어야 한다.
+
+}
+void change(Test& a, Test& b)
+{
+	cout << "함수시작" << endl;
+	Test temp=move(a);	// 복사생성자
+	a=move(b);				// 복사대입연산자
+	b=move(temp);			// 복사대입연산자
+	cout << "함수끝" << endl;
+}

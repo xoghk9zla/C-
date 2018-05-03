@@ -1,0 +1,31 @@
+#include <iostream>
+
+using namespace std;
+
+class Dog{
+	char* name;
+	int age;
+public:
+	Dog(char* n, int a):age(a){
+	name = new char[strlen(n)+1];
+	strcpy(name,n);
+	}
+	void show() {
+		cout << "나는 " << name << ", 나이는 " << age << "살입니다" << endl;
+	}
+	virtual void run() = 0;
+};
+class JindoDog:public Dog{
+public:
+	JindoDog(char* n, int a):Dog(n, a){}
+	void run(){
+	cout << "진돗개가 달린다." << endl;
+	}
+};
+int main()
+{
+	system("chcp 949");
+	JindoDog a("진돌이",3);
+	a.show();
+	a.run();
+}
